@@ -1,0 +1,108 @@
+'use client'
+
+import { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowRight, Star, TrendingUp, Users } from 'lucide-react'
+
+interface Collaboration {
+    id: number
+    brandName: string
+    brandLogo: string
+    year: number
+}
+
+interface HistoryCueCardProps {
+    id: number
+    name: string
+    handle: string
+    category: string
+    followers: number
+    engagement: number
+    collaborations: Collaboration[]
+}
+
+export function HistoryCueCard({ id, name, handle, category, followers, engagement, collaborations }: HistoryCueCardProps) {
+    const [isFlipped, setIsFlipped] = useState(false)
+
+    return (
+        <div
+            className="group perspective-1000 w-full h-[400px] cursor-pointer"
+            onMouseEnter={() => setIsFlipped(true)}
+            onMouseLeave={() => setIsFlipped(false)}
+        >
+            <div className={`relative w-full h-full transition-all duration-500 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
+
+                {/* Front of Card */}
+                <div className="absolute w-full h-full backface-hidden bg-card rounded-2xl border-2 border-border shadow-[8px_8px_0px_0px_var(--border)] overflow-hidden flex flex-col">
+                    <div className="h-1/2 bg-primary/10 flex items-center justify-center border-b-2 border-border relative overflow-hidden">
+                        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+                        <div className="w-32 h-32 rounded-full border-2 border-border bg-card shadow-[4px_4px_0px_0px_var(--border)] flex items-center justify-center z-10">
+                            <span className="font-serif text-5xl font-bold text-foreground">{name.charAt(0)}</span>
+                        </div>
+                    </div>
+
+                    <div className="h-1/2 p-6 flex flex-col items-center text-center justify-between bg-card relative">
+                        <div>
+                            <h3 className="font-serif text-2xl font-bold text-foreground mb-1">{name}</h3>
+                            <p className="text-foreground/60 font-medium text-sm mb-3">{handle}</p>
+                            <span className="inline-block px-3 py-1 bg-secondary/20 border border-border/50 rounded-full text-xs font-bold text-foreground uppercase tracking-wide">
+                                {category}
+                            </span>
+                        </div>
+
+                        <div className="flex w-full justify-between items-center px-4 pt-4 border-t border-border/50">
+                            <div className="flex flex-col items-center">
+                                <span className="text-xs text-foreground/60 font-bold uppercase">Followers</span>
+                                <span className="font-bold text-lg">{(followers / 1000).toFixed(0)}K</span>
+                            </div>
+                            <div className="h-8 w-px bg-foreground/20"></div>
+                            <div className="flex flex-col items-center">
+                                <span className="text-xs text-foreground/60 font-bold uppercase">Engagement</span>
+                                <span className="font-bold text-lg text-primary">{engagement}%</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                {/* Back of Card */}
+                <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-card text-foreground rounded-2xl border-2 border-border shadow-[8px_8px_0px_0px_var(--border)] p-6 flex flex-col">
+                    <h3 className="font-serif text-xl font-bold text-primary mb-4 text-center border-b-2 border-primary/20 pb-2">
+                        Collaboration History
+                    </h3>
+
+                    <div className="flex-grow overflow-y-auto space-y-3 custom-scrollbar pr-1">
+                        {collaborations.slice(0, 4).map((collab) => (
+                            <div key={collab.id} className="flex items-center gap-3 bg-secondary/5 p-2 rounded-lg border border-border/20">
+                                <div className="w-8 h-8 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold text-xs border border-border/30">
+                                    {collab.brandLogo}
+                                </div>
+                                <div className="flex-grow">
+                                    <p className="font-bold text-sm text-foreground">{collab.brandName}</p>
+                                    <p className="text-xs text-foreground/60">{collab.year}</p>
+                                </div>
+                                <Star className="w-3 h-3 text-accent fill-accent" />
+                            </div>
+                        ))}
+                        {collaborations.length > 4 && (
+                            <p className="text-center text-xs text-foreground/50 italic py-1">
+                                + {collaborations.length - 4} more campaigns
+                            </p>
+                        )}
+                    </div>
+
+                    <div className="mt-4 pt-4 border-t-2 border-border/10">
+                        <Link
+                            href={`/influencer-history/${id}`}
+                            className="flex items-center justify-center gap-2 w-full py-3 bg-accent text-accent-foreground rounded-xl font-bold hover:brightness-110 active:scale-95 transition-all shadow-[4px_4px_0px_0px_var(--border)] border-2 border-border"
+                        >
+                            View Full Profile
+                            <ArrowRight className="w-4 h-4" />
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
