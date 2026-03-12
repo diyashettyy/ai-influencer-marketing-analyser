@@ -1,164 +1,236 @@
+'use client'
+
 import Link from 'next/link'
-import { ArrowRight, CheckCircle, TrendingUp, Users, DollarSign, Star } from 'lucide-react'
-import { InfluencerCard } from '@/components/cards/InfluencerCard'
-import { EngagementChart } from '@/components/charts/EngagementChart'
-import { AudienceChart } from '@/components/charts/AudienceChart'
-import { AIInsightBox } from '@/components/common/AIInsightBox'
+import React from 'react'
+import { ArrowRight, CheckCircle, TrendingUp, Users, History, Star, Zap } from 'lucide-react'
 import { SAMPLE_INFLUENCERS } from '@/lib/constants'
 
 export default function ResultsPage() {
-  const engagementData = [
-    { week: 'Week 1', engagement: 4.2 },
-    { week: 'Week 2', engagement: 5.8 },
-    { week: 'Week 3', engagement: 7.1 },
-    { week: 'Week 4', engagement: 8.9 },
-    { week: 'Week 5', engagement: 9.4 },
-    { week: 'Week 6', engagement: 8.7 },
-  ]
-
-  const audienceData = [
-    { name: '18-24 years', value: 28 },
-    { name: '25-34 years', value: 38 },
-    { name: '35-44 years', value: 22 },
-    { name: '45+ years', value: 12 },
-  ]
+  const top3 = SAMPLE_INFLUENCERS.slice(0, 3)
 
   return (
     <main className="min-h-screen bg-background">
 
-      <section className="max-w-6xl mx-auto px-6 py-12">
-        {/* Header */}
-        <div className="mb-12 stagger-fade-1">
-          <div className="flex items-center gap-3 mb-4">
-            <CheckCircle className="w-8 h-8 text-primary" />
-            <span className="text-lg font-semibold text-primary">Analysis Complete</span>
+      {/* Hero Header with grid pattern */}
+      <section className="relative pt-10 sm:pt-16 pb-8 sm:pb-12 px-4 sm:px-6 overflow-hidden bg-grid-pattern">
+        <div className="absolute top-0 left-0 w-full h-full bg-primary/5 -skew-y-3 origin-top-left -z-10" />
+
+        <div className="max-w-6xl mx-auto text-center stagger-fade-1">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/60 backdrop-blur-md border-2 border-border mb-8 shadow-[4px_4px_0px_0px_var(--border)] hover:rotate-1 transition-transform">
+            <CheckCircle className="w-4 h-4 text-primary" />
+            <span className="text-sm font-bold text-foreground uppercase tracking-wide">Analysis Complete</span>
           </div>
-          <h1 className="font-serif text-4xl font-bold text-foreground mb-4">Campaign Analysis Results</h1>
-          <p className="text-lg text-foreground/70">
-            Your AI-powered insights are ready. Review the metrics and recommendations below.
+
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-6xl font-bold text-foreground mb-4 tracking-tight">
+            Your{' '}
+            <span className="relative inline-block">
+              <span className="absolute inset-0 bg-primary/20 rotate-1 scale-110 rounded-sm -z-10 blur-sm opacity-50" />
+              <span className="relative bg-primary/20 px-4 py-1 skew-x-[-8deg] inline-block border-2 border-border shadow-[4px_4px_0px_0px_var(--border)]">
+                Top 3
+              </span>
+            </span>{' '}
+            Influencers
+          </h1>
+
+          <p className="text-base sm:text-lg text-foreground/70 max-w-xl mx-auto mt-4 sm:mt-6 font-medium">
+            Hand-picked by our AI for maximum campaign impact.
           </p>
         </div>
+      </section>
 
-        {/* Influencer Performance */}
-        <div className="mb-12">
-          <h2 className="font-serif text-2xl font-bold text-foreground mb-6">Influencer Performance</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {SAMPLE_INFLUENCERS.slice(0, 3).map((influencer, i) => (
-              <div key={influencer.id} className={`stagger-fade-${i + 1}`}>
-                <InfluencerCard {...influencer} />
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
+        {/* ========== #1 — HERO CARD (horizontal on desktop) ========== */}
+        <div className="mb-10 stagger-fade-1 group">
+          <div className="relative bg-card rounded-3xl border-2 border-primary overflow-hidden shadow-[8px_8px_0px_0px_var(--border)] hover:shadow-[12px_12px_0px_0px_var(--border)] transition-all duration-300 hover:-translate-y-1">
+
+            <div className="flex flex-col md:flex-row">
+
+              {/* Left: Avatar + Rank */}
+              <div className="relative flex flex-col items-center justify-center p-8 md:p-10 md:w-72 bg-primary/8 border-b-2 md:border-b-0 md:border-r-2 border-border/30">
+                <div className="absolute top-4 left-4 md:top-6 md:left-6">
+                  <span className="inline-block bg-primary text-primary-foreground px-4 py-1.5 rounded-full font-black text-xs uppercase tracking-widest border-2 border-foreground shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+                    #1 Top Pick
+                  </span>
+                </div>
+
+                <div className="w-28 h-28 mt-6 md:mt-4 rounded-full border-3 border-foreground bg-pastel-pink flex items-center justify-center shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] group-hover:rotate-3 transition-transform duration-300">
+                  <span className="font-serif text-5xl font-bold text-foreground">
+                    {top3[0].name.charAt(0)}
+                  </span>
+                </div>
+
+                <div className="mt-4 flex gap-2">
+                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  <div className="w-2 h-2 rounded-full bg-secondary animate-pulse delay-100" />
+                  <div className="w-2 h-2 rounded-full bg-accent animate-pulse delay-200" />
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Top Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
-          {[
-            { label: 'Total Reach', value: '2.3M', icon: <Users className="w-8 h-8 text-primary" /> },
-            { label: 'Avg Engagement', value: '7.2%', icon: <TrendingUp className="w-8 h-8 text-primary" /> },
-            { label: 'Predicted ROI', value: '245%', icon: <DollarSign className="w-8 h-8 text-primary" /> },
-            { label: 'Campaign Score', value: '8.9/10', icon: <Star className="w-8 h-8 text-primary" /> },
-          ].map((metric, i) => (
-            <div key={i} className={`bg-card rounded-2xl border border-border/20 p-6 shadow-sm stagger-fade-${i + 2}`}>
-              <div className="mb-2">{metric.icon}</div>
-              <p className="text-sm text-foreground/60 mb-1">{metric.label}</p>
-              <p className="font-serif text-2xl font-bold text-foreground">{metric.value}</p>
-            </div>
-          ))}
-        </div>
+              {/* Right: Details */}
+              <div className="flex-1 p-6 md:p-8 flex flex-col justify-between">
+                <div>
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
+                    <div>
+                      <h2 className="font-serif text-2xl sm:text-3xl font-bold text-foreground mb-1">{top3[0].name}</h2>
+                      <p className="text-foreground/50 font-medium">{top3[0].handle}</p>
+                    </div>
+                    <span className="inline-block self-start px-4 py-1.5 bg-pastel-pink/50 border-2 border-border rounded-full text-xs font-black text-foreground uppercase tracking-wide shadow-[2px_2px_0px_0px_var(--border)]">
+                      {top3[0].category}
+                    </span>
+                  </div>
 
-        {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <div className="stagger-fade-1">
-            <EngagementChart data={engagementData} />
-          </div>
-          <div className="stagger-fade-2">
-            <AudienceChart data={audienceData} />
-          </div>
-        </div>
+                  {/* Stats row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
+                    <div className="bg-background rounded-xl p-4 border-2 border-border shadow-[3px_3px_0px_0px_var(--border)] text-center group-hover:shadow-[4px_4px_0px_0px_var(--border)] transition-shadow">
+                      <Users className="w-4 h-4 text-foreground/40 mx-auto mb-1" />
+                      <p className="font-serif text-2xl font-bold text-foreground">{(top3[0].followers / 1000).toFixed(0)}K</p>
+                      <p className="text-xs text-foreground/50 font-bold uppercase mt-1">Followers</p>
+                    </div>
+                    <div className="bg-background rounded-xl p-4 border-2 border-border shadow-[3px_3px_0px_0px_var(--border)] text-center group-hover:shadow-[4px_4px_0px_0px_var(--border)] transition-shadow">
+                      <TrendingUp className="w-4 h-4 text-primary mx-auto mb-1" />
+                      <p className="font-serif text-2xl font-bold text-primary">{top3[0].engagement}%</p>
+                      <p className="text-xs text-foreground/50 font-bold uppercase mt-1">Engagement</p>
+                    </div>
+                    <div className="bg-background rounded-xl p-4 border-2 border-border shadow-[3px_3px_0px_0px_var(--border)] text-center group-hover:shadow-[4px_4px_0px_0px_var(--border)] transition-shadow">
+                      <Star className="w-4 h-4 text-accent mx-auto mb-1" />
+                      <p className="font-serif text-2xl font-bold text-foreground">9.2</p>
+                      <p className="text-xs text-foreground/50 font-bold uppercase mt-1">AI Score</p>
+                    </div>
+                  </div>
 
-        {/* AI Insights */}
-        <div className="mb-12">
-          <h2 className="font-serif text-2xl font-bold text-foreground mb-6">Key Insights</h2>
-          <div className="space-y-4">
-            <div className="stagger-fade-1">
-              <AIInsightBox
-                title="Optimal Engagement Window"
-                content="Influencers in your campaign show peak engagement between"
-                highlight="2-5 PM EST on weekdays"
-              />
-            </div>
-            <div className="stagger-fade-2">
-              <AIInsightBox
-                title="Audience Quality"
-                content="Your selected influencers have an average audience quality score of"
-                highlight="8.6/10"
-              />
-            </div>
-            <div className="stagger-fade-3">
-              <AIInsightBox
-                title="Content Performance"
-                content="Video content receives"
-                highlight="3.2x more engagement"
-              />
-            </div>
-          </div>
-        </div>
+                  {/* AI quote */}
+                  {top3[0].description && (
+                    <div className="bg-primary/5 rounded-xl p-4 border border-primary/20 mb-6 -rotate-[0.3deg]">
+                      <div className="flex gap-2 items-start">
+                        <Zap className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-foreground/80 italic leading-relaxed">
+                          {top3[0].description}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
 
-
-
-        {/* Recommendations */}
-        <div className="bg-gradient-to-r from-primary/10 via-card to-card rounded-2xl border border-primary/20 p-8 mb-12 shadow-sm backdrop-blur-sm">
-          <div className="flex gap-4">
-            <TrendingUp className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-            <div>
-              <h3 className="font-serif font-bold text-foreground text-lg mb-3">Recommendations</h3>
-              <ul className="space-y-2 text-sm text-foreground/80">
-                <li className="flex gap-2">
-                  <span className="text-primary font-bold">1.</span>
-                  <span>Prioritize video content - it outperforms static posts by 3.2x</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-primary font-bold">2.</span>
-                  <span>Schedule posts between 2-5 PM EST for maximum engagement</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-primary font-bold">3.</span>
-                  <span>Increase budget allocation to top 2 performers by 30%</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-primary font-bold">4.</span>
-                  <span>Create collaborative content between complementary influencers</span>
-                </li>
-              </ul>
+                {/* Actions */}
+                <div className="flex gap-3">
+                  <Link
+                    href={`/influencer-history/${top3[0].id}`}
+                    className="flex-1 py-3 px-6 bg-foreground text-background rounded-xl font-bold text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] transition-all active:translate-y-0.5 active:shadow-none text-center border-2 border-foreground"
+                  >
+                    View Full Profile
+                  </Link>
+                  <Link
+                    href={`/influencer-history/${top3[0].id}#collaborations`}
+                    className="flex items-center justify-center px-4 bg-card text-foreground border-2 border-foreground rounded-xl hover:bg-muted transition-colors"
+                    title="View Collaborations"
+                  >
+                    <History className="w-5 h-5" />
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="text-center">
-          <div className="mb-8">
-            <h2 className="font-serif text-2xl font-bold text-foreground mb-3">Ready to Launch?</h2>
-            <p className="text-foreground/70">
-              Use these insights to optimize your influencer campaign and maximize ROI.
-            </p>
-          </div>
+        {/* ========== #2 and #3 — Side by side cards ========== */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/insights"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold hover-lift active:scale-95 transition-transform shadow-md"
-            >
-              View Detailed Insights
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link
-              href="/campaign-setup"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-foreground text-foreground bg-card rounded-full font-semibold hover-lift active:scale-95 transition-all shadow-sm"
-            >
-              Start New Campaign
-            </Link>
-          </div>
+          {[top3[1], top3[2]].map((influencer, i) => {
+            const rank = i + 2
+            const colors = rank === 2
+              ? { bg: 'bg-secondary/8', border: 'border-secondary', badge: 'bg-secondary text-secondary-foreground', avatar: 'bg-pastel-blue', accent: 'bg-secondary/5 border-secondary/20', accentIcon: 'text-secondary' }
+              : { bg: 'bg-accent/8', border: 'border-accent', badge: 'bg-accent text-accent-foreground', avatar: 'bg-pastel-yellow', accent: 'bg-accent/5 border-accent/20', accentIcon: 'text-accent' }
+
+            return (
+              <div key={influencer.id} className={`stagger-fade-${i + 2} group`}>
+                <div className={`relative ${colors.bg} rounded-2xl border-2 ${colors.border} p-7 shadow-[6px_6px_0px_0px_var(--border)] hover:shadow-[8px_8px_0px_0px_var(--border)] hover:-translate-y-1 transition-all duration-300 flex flex-col h-full`}>
+
+                  {/* Rank Badge */}
+                  <div className={`absolute -top-3.5 left-6 ${colors.badge} px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest border-2 border-foreground shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] z-10`}>
+                    #{rank} {rank === 2 ? 'Runner Up' : 'Strong Pick'}
+                  </div>
+
+                  {/* Top section: avatar + info */}
+                  <div className="flex items-center gap-5 mt-3 mb-5">
+                    <div className={`w-16 h-16 rounded-full border-2 border-foreground ${colors.avatar} flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex-shrink-0 group-hover:rotate-3 transition-transform duration-300`}>
+                      <span className="font-serif text-2xl font-bold text-foreground">
+                        {influencer.name.charAt(0)}
+                      </span>
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="font-serif text-xl font-bold text-foreground truncate">{influencer.name}</h3>
+                      <p className="text-sm text-foreground/50 font-medium">{influencer.handle}</p>
+                      <span className="inline-block mt-1.5 px-3 py-0.5 bg-card border border-border rounded-full text-[10px] font-black text-foreground uppercase tracking-wider">
+                        {influencer.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Stats */}
+                  <div className="grid grid-cols-2 gap-3 mb-5">
+                    <div className="bg-card rounded-xl p-3 text-center border-2 border-border shadow-[2px_2px_0px_0px_var(--border)]">
+                      <Users className="w-3.5 h-3.5 text-foreground/40 mx-auto mb-1" />
+                      <p className="font-serif text-xl font-bold text-foreground">{(influencer.followers / 1000).toFixed(0)}K</p>
+                      <p className="text-[10px] text-foreground/50 font-bold uppercase mt-0.5">Followers</p>
+                    </div>
+                    <div className="bg-card rounded-xl p-3 text-center border-2 border-border shadow-[2px_2px_0px_0px_var(--border)]">
+                      <TrendingUp className="w-3.5 h-3.5 text-primary mx-auto mb-1" />
+                      <p className="font-serif text-xl font-bold text-primary">{influencer.engagement}%</p>
+                      <p className="text-[10px] text-foreground/50 font-bold uppercase mt-0.5">Engagement</p>
+                    </div>
+                  </div>
+
+                  {/* AI quote */}
+                  {influencer.description && (
+                    <div className={`${colors.accent} border rounded-xl p-3 mb-5 flex-grow`}>
+                      <div className="flex gap-2 items-start">
+                        <Zap className={`w-3.5 h-3.5 ${colors.accentIcon} mt-0.5 flex-shrink-0`} />
+                        <p className="text-xs text-foreground/75 italic leading-relaxed">
+                          {influencer.description}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Actions */}
+                  <div className="flex gap-2 mt-auto">
+                    <Link
+                      href={`/influencer-history/${influencer.id}`}
+                      className="flex-1 py-2.5 px-4 bg-foreground text-background rounded-xl font-bold text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] transition-all active:translate-y-0.5 active:shadow-none text-center border-2 border-foreground"
+                    >
+                      View Profile
+                    </Link>
+                    <Link
+                      href={`/influencer-history/${influencer.id}#collaborations`}
+                      className="flex items-center justify-center p-2.5 bg-card text-foreground border-2 border-foreground rounded-xl hover:bg-muted transition-colors"
+                      title="View Collaborations"
+                    >
+                      <History className="w-5 h-5" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
+
+        {/* ========== CTA ========== */}
+        <div className="relative text-center bg-card rounded-3xl border-2 border-border p-12 shadow-[8px_8px_0px_0px_var(--border)] overflow-hidden">
+          <div className="absolute inset-0 bg-primary/5 -skew-y-2 origin-center scale-110 -z-10" />
+          <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">Ready to Launch?</h2>
+          <p className="text-foreground/60 mb-8 max-w-lg mx-auto font-medium">
+            Use these results to pick the right influencers and launch your next campaign.
+          </p>
+          <Link
+            href="/campaign-setup"
+            className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-primary text-primary-foreground rounded-full font-bold text-lg hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_var(--border)] transition-all border-2 border-border active:translate-y-0.5 active:shadow-none"
+          >
+            Start New Campaign
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+        </div>
+
       </section>
     </main>
   )

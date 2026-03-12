@@ -12,32 +12,33 @@ interface EngagementChartProps {
 
 export function EngagementChart({ data, height = 300 }: EngagementChartProps) {
   return (
-    <div className="w-full bg-white rounded-2xl border border-border p-6">
+    <div className="w-full bg-card rounded-2xl border border-border p-6">
       <h3 className="font-serif text-lg font-bold text-foreground mb-6">Engagement Trend</h3>
 
       <ResponsiveContainer width="100%" height={height}>
         <LineChart data={data} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e5e5" />
-          <XAxis dataKey="week" stroke="#2D2D2D" style={{ fontSize: '12px', fontWeight: 'bold' }} />
-          <YAxis stroke="#2D2D2D" style={{ fontSize: '12px', fontWeight: 'bold' }} />
+          <CartesianGrid strokeDasharray="3 3" className="[&_line]:stroke-border" />
+          <XAxis dataKey="week" className="[&_text]:fill-foreground" style={{ fontSize: '12px', fontWeight: 'bold' }} />
+          <YAxis className="[&_text]:fill-foreground" style={{ fontSize: '12px', fontWeight: 'bold' }} />
           <Tooltip
             contentStyle={{
-              backgroundColor: '#fff',
-              border: '2px solid #2D2D2D',
+              backgroundColor: 'hsl(var(--card))',
+              border: '2px solid hsl(var(--border))',
               borderRadius: '12px',
-              boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
+              boxShadow: '4px 4px 0px 0px hsl(var(--border))',
+              color: 'hsl(var(--foreground))'
             }}
-            itemStyle={{ color: '#2D2D2D', fontWeight: 'bold' }}
-            labelStyle={{ color: '#2D2D2D', fontWeight: 'bold', marginBottom: '4px' }}
+            itemStyle={{ color: 'hsl(var(--foreground))', fontWeight: 'bold' }}
+            labelStyle={{ color: 'hsl(var(--foreground))', fontWeight: 'bold', marginBottom: '4px' }}
             formatter={(value) => [`${value}%`, 'Engagement']}
           />
           <Line
             type="monotone"
             dataKey="engagement"
-            stroke="#2D2D2D"
+            stroke="hsl(var(--primary))"
             strokeWidth={3}
-            dot={{ fill: '#FFC4D6', stroke: '#2D2D2D', strokeWidth: 2, r: 6 }}
-            activeDot={{ fill: '#FFC4D6', stroke: '#2D2D2D', strokeWidth: 2, r: 8 }}
+            dot={{ fill: 'hsl(var(--pastel-pink))', stroke: 'hsl(var(--foreground))', strokeWidth: 2, r: 6 }}
+            activeDot={{ fill: 'hsl(var(--pastel-pink))', stroke: 'hsl(var(--foreground))', strokeWidth: 2, r: 8 }}
             animationDuration={800}
           />
         </LineChart>

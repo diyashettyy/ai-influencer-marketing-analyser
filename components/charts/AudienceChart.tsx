@@ -14,7 +14,7 @@ const COLORS = ['#FFC4D6', '#B4E1FF', '#D4E9D4', '#FFF5B8', '#e5e5e5'] // Pink, 
 
 export function AudienceChart({ data, height = 300 }: AudienceChartProps) {
   return (
-    <div className="w-full bg-white rounded-2xl border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+    <div className="w-full bg-card rounded-2xl border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)]">
       <h3 className="font-serif text-lg font-bold text-foreground mb-6">Audience Demographics</h3>
 
       <ResponsiveContainer width="100%" height={height}>
@@ -29,7 +29,7 @@ export function AudienceChart({ data, height = 300 }: AudienceChartProps) {
             fill="#8884d8"
             dataKey="value"
             animationDuration={800}
-            stroke="#2D2D2D"
+            stroke="hsl(var(--foreground))"
             strokeWidth={2}
           >
             {data.map((entry, index) => (
@@ -38,18 +38,19 @@ export function AudienceChart({ data, height = 300 }: AudienceChartProps) {
           </Pie>
           <Tooltip
             contentStyle={{
-              backgroundColor: '#fff',
-              border: '2px solid #2D2D2D',
+              backgroundColor: 'hsl(var(--card))',
+              border: '2px solid hsl(var(--border))',
               borderRadius: '12px',
-              boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)'
+              boxShadow: '4px 4px 0px 0px hsl(var(--border))',
+              color: 'hsl(var(--foreground))'
             }}
-            itemStyle={{ color: '#2D2D2D', fontWeight: 'bold' }}
-            labelStyle={{ color: '#2D2D2D', fontWeight: 'bold' }}
+            itemStyle={{ color: 'hsl(var(--foreground))', fontWeight: 'bold' }}
+            labelStyle={{ color: 'hsl(var(--foreground))', fontWeight: 'bold' }}
             formatter={(value) => [`${value}%`, 'Percentage']}
           />
           <Legend
             wrapperStyle={{ paddingTop: '20px' }}
-            formatter={(value) => <span style={{ color: '#4A4036', fontSize: '12px' }}>{value}</span>}
+            formatter={(value) => <span className="text-foreground text-xs">{value}</span>}
           />
         </PieChart>
       </ResponsiveContainer>

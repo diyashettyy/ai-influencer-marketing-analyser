@@ -24,7 +24,7 @@ export default function AboutPage() {
         <main className="min-h-screen bg-background selection:bg-primary selection:text-white">
 
             {/* Section 1: Hero Hook (Mission Statement) */}
-            <section className="relative pt-20 pb-32 px-6 overflow-hidden bg-grid-pattern">
+            <section className="relative pt-12 sm:pt-20 pb-20 sm:pb-32 px-4 sm:px-6 overflow-hidden bg-grid-pattern">
                 <div className="absolute inset-0 bg-primary/10 -skew-y-3 origin-top-left -z-10" />
                 <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -z-10 animate-pulse" />
                 <div className="max-w-6xl mx-auto text-center relative z-10">
@@ -33,7 +33,7 @@ export default function AboutPage() {
                         <span className="text-sm font-medium text-foreground/80">Next Gen Influencer Marketing</span>
                     </div>
 
-                    <h1 className="font-serif text-5xl md:text-7xl font-bold text-foreground mb-8 tracking-tight leading-tight">
+                    <h1 className="font-serif text-3xl sm:text-5xl md:text-7xl font-bold text-foreground mb-6 sm:mb-8 tracking-tight leading-tight">
                         Smarter Influencer Discovery <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">Powered by AI</span>
                     </h1>
@@ -81,10 +81,10 @@ export default function AboutPage() {
             </section>
 
             {/* Section 3: Unique Value (USP Highlight) */}
-            <section className="py-20 bg-foreground text-background overflow-hidden relative">
+            <section className="py-12 sm:py-20 bg-foreground text-background overflow-hidden relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-primary/10" />
                 <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-                    <h2 className="font-serif text-3xl md:text-5xl font-bold leading-tight mb-8">
+                    <h2 className="font-serif text-2xl sm:text-3xl md:text-5xl font-bold leading-tight mb-8">
                         “Focused recommendations instead of overwhelming data — <span className="text-primary">clarity over complexity.</span>”
                     </h2>
                     <div className="flex justify-center gap-2">
@@ -96,7 +96,7 @@ export default function AboutPage() {
             </section>
 
             {/* Section 4: Tech Stack Showcase */}
-            <section className="py-24 px-6 bg-background">
+            <section className="py-16 sm:py-24 px-4 sm:px-6 bg-background">
                 <div className="max-w-6xl mx-auto">
                     <h2 className="font-serif text-3xl font-bold text-foreground text-center mb-12">Built With Modern Tech</h2>
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -106,7 +106,7 @@ export default function AboutPage() {
                             { icon: <Server />, name: 'Data', tool: 'API Integration' },
                             { icon: <Cloud />, name: 'Deploy', tool: 'Cloud Hosted' },
                         ].map((stack, i) => (
-                            <div key={i} className={`flex flex-col items-center justify-center p-8 bg-card rounded-2xl shadow-[4px_4px_0px_0px_var(--border)] border-2 border-border hover:border-primary transition-all group hover:-translate-y-1 ${i % 2 === 0 ? 'rotate-1' : '-rotate-1'} hover:rotate-0`}>
+                            <div key={i} className={`flex flex-col items-center justify-center p-5 sm:p-8 bg-card rounded-2xl shadow-[4px_4px_0px_0px_var(--border)] border-2 border-border hover:border-primary transition-all group hover:-translate-y-1 ${i % 2 === 0 ? 'rotate-1' : '-rotate-1'} hover:rotate-0`}>
                                 <div className={`p-3 rounded-full text-foreground mb-4 group-hover:rotate-12 transition-transform border-2 border-border shadow-[2px_2px_0px_0px_var(--border)] ${i % 2 === 0 ? 'bg-primary/30' : 'bg-secondary/30'}`}>
                                     {React.cloneElement(stack.icon as React.ReactElement<any>, { className: "w-6 h-6" })}
                                 </div>
@@ -280,7 +280,9 @@ export default function AboutPage() {
                             <ArrowRight className="w-5 h-5" />
                         </Link>
                         <a
-                            href="#"
+                            href="https://github.com/diyashettyy/ai-influencer-marketing-analyser"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="px-8 py-4 bg-card border-2 border-foreground text-foreground rounded-full font-bold text-lg hover:bg-background transition-colors"
                         >
                             Visit GitHub Repo

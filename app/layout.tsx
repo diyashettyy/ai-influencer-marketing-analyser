@@ -3,8 +3,7 @@ import { Inter, Playfair_Display, Lilita_One } from 'next/font/google'
 
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
-import { Sidebar } from '@/components/navigation/Sidebar'
-import { Navbar } from '@/components/navigation/Navbar'
+import { LayoutShell } from '@/components/navigation/LayoutShell'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const playfairDisplay = Playfair_Display({ subsets: ['latin'], variable: '--font-serif' })
@@ -37,15 +36,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex flex-col min-h-screen">
-            <Navbar />
-            <div className="flex flex-1 pt-16">
-              <Sidebar />
-              <main className="flex-1 transition-all duration-300 ease-in-out w-full overflow-x-hidden">
-                {children}
-              </main>
-            </div>
-          </div>
+          <LayoutShell>
+            {children}
+          </LayoutShell>
         </ThemeProvider>
       </body>
     </html>

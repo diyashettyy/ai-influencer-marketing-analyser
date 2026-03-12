@@ -12,7 +12,7 @@ export default function LandingPage() {
   return (
     <main className="min-h-screen bg-background selection:bg-primary/30">
       {/* Hero Section */}
-      <section className="relative pt-16 pb-20 px-6 overflow-hidden bg-grid-pattern">
+      <section className="relative pt-10 sm:pt-16 pb-14 sm:pb-20 px-4 sm:px-6 overflow-hidden bg-grid-pattern">
         {/* Fun Skewed Background Shape */}
         <div className="absolute top-0 left-0 w-full h-[120%] bg-primary/5 -skew-y-6 origin-top-left -z-10" />
 
@@ -21,7 +21,7 @@ export default function LandingPage() {
             <Sparkles className="w-4 h-4 text-primary animate-pulse" />
             <span className="text-sm font-medium text-foreground/80">AI-Powered Influencer Intelligence</span>
           </div>
-          <h1 className="font-serif text-4xl md:text-6xl font-bold text-foreground mb-6 text-balance leading-tight animate-fade-in animation-delay-200">
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-6xl font-bold text-foreground mb-6 text-balance leading-tight animate-fade-in animation-delay-200">
             AI-Powered{' '}
             <span className="relative inline-block">
               <span className="absolute inset-0 bg-primary/20 rotate-2 scale-110 rounded-sm -z-10 blur-sm opacity-50"></span>
@@ -30,8 +30,9 @@ export default function LandingPage() {
               </span>
             </span>
           </h1>
-          <p className="text-xl font-medium text-foreground/80 max-w-2xl mx-auto text-balance leading-relaxed bg-card border border-border p-4 shadow-[4px_4px_0px_0px_var(--border)] rounded-xl animate-fade-in animation-delay-400">
-            Analyze influencer campaigns with cutting-edge AI. Get actionable insights, engagement metrics, and ROI predictions in seconds.
+          <p className="text-base sm:text-xl font-medium text-foreground/80 max-w-2xl mx-auto text-balance leading-relaxed bg-card border border-border p-3 sm:p-4 shadow-[4px_4px_0px_0px_var(--border)] rounded-xl animate-fade-in animation-delay-400">
+            Analyze influencer performance with AI.
+Track engagement, audience interaction, and campaign impact in seconds.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-16 mt-8 justify-center animate-fade-in animation-delay-600">
@@ -55,7 +56,7 @@ export default function LandingPage() {
           </div>
 
           {/* Demo Section */}
-          <div className="w-full bg-card rounded-3xl border-2 border-border p-8 animate-fade-in animation-delay-1000 shadow-[8px_8px_0px_0px_var(--border)]">
+          <div className="w-full bg-card rounded-3xl border-2 border-border p-4 sm:p-8 animate-fade-in animation-delay-1000 shadow-[8px_8px_0px_0px_var(--border)]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex flex-col justify-center">
                 <div className="inline-block mb-4">

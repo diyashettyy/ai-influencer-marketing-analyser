@@ -58,12 +58,15 @@ export function InfluencerCard({ id, name, handle, followers, engagement, catego
       )}
 
       <div className="flex gap-2 mt-4">
-        <button className="flex-1 py-2 px-4 bg-foreground text-background border-2 border-foreground rounded-lg font-bold text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] transition-all active:translate-y-0.5 active:shadow-none">
-          View Details
-        </button>
         <Link
           href={`/influencer-history/${id}`}
-          className="flex items-center justify-center p-2 bg-white text-foreground border-2 border-foreground rounded-lg hover:bg-muted transition-colors"
+          className="flex-1 py-2 px-4 bg-foreground text-background border-2 border-foreground rounded-lg font-bold text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] transition-all active:translate-y-0.5 active:shadow-none text-center"
+        >
+          View Details
+        </Link>
+        <Link
+          href={`/influencer-history/${id}#collaborations`}
+          className="flex items-center justify-center p-2 bg-card text-foreground border-2 border-foreground rounded-lg hover:bg-muted transition-colors"
           title="View History"
         >
           <History className="w-5 h-5" />
