@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ProcessingLoader } from '@/components/loaders/ProcessingLoader'
 import { useProcessingStatus } from '@/hooks/useProcessingStatus'
 
-export default function ProcessingPage() {
+function ProcessingContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const count = searchParams.get('count') || '5'
@@ -58,5 +58,17 @@ export default function ProcessingPage() {
         </div>
       </div>
     </main>
+  )
+}
+
+export default function ProcessingPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-background flex flex-col items-center justify-center">
+        <div className="animate-pulse font-serif text-2xl text-foreground">Loading...</div>
+      </main>
+    }>
+      <ProcessingContent />
+    </Suspense>
   )
 }

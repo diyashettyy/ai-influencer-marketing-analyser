@@ -1,12 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { ArrowRight, CheckCircle, TrendingUp, Users, History, Star, Zap } from 'lucide-react'
 import { SAMPLE_INFLUENCERS } from '@/lib/constants'
 
-export default function ResultsPage() {
+function ResultsContent() {
   const searchParams = useSearchParams()
   const rawCount = Number(searchParams.get('count')) || 5
   const count = Math.max(3, Math.min(10, rawCount))
@@ -250,5 +250,17 @@ export default function ResultsPage() {
 
       </section>
     </main>
+  )
+}
+
+export default function ResultsPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-background flex flex-col items-center justify-center">
+        <div className="animate-pulse font-serif text-2xl text-foreground">Loading results...</div>
+      </main>
+    }>
+      <ResultsContent />
+    </Suspense>
   )
 }
