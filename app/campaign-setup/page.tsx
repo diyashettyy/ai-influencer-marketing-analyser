@@ -10,6 +10,7 @@ export default function CampaignSetupPage() {
   const [ageGroup, setAgeGroup] = useState('')
   const [location, setLocation] = useState('')
   const [niche, setNiche] = useState('')
+  const [influencerCount, setInfluencerCount] = useState(5)
   const [description, setDescription] = useState('')
 
   const canProceed = campaignName.trim() && campaignBudget.trim() && ageGroup.trim() && location.trim() && niche.trim()
@@ -46,7 +47,7 @@ export default function CampaignSetupPage() {
                     value={campaignName}
                     onChange={(e) => setCampaignName(e.target.value)}
                     placeholder="e.g., Summer Product Launch"
-                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground placeholder:text-opacity-50"
+                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30"
                   />
                 </div>
 
@@ -57,7 +58,7 @@ export default function CampaignSetupPage() {
                     value={campaignBudget}
                     onChange={(e) => setCampaignBudget(e.target.value)}
                     placeholder="e.g., 50000"
-                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground placeholder:text-opacity-50"
+                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30"
                   />
                 </div>
 
@@ -86,7 +87,7 @@ export default function CampaignSetupPage() {
                       value={location}
                       onChange={(e) => setLocation(e.target.value)}
                       placeholder="e.g., United States, Global"
-                      className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground placeholder:text-opacity-50"
+                      className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30"
                     />
                   </div>
                 </div>
@@ -98,8 +99,26 @@ export default function CampaignSetupPage() {
                     value={niche}
                     onChange={(e) => setNiche(e.target.value)}
                     placeholder="e.g., Fashion, Tech, Wellness"
-                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground placeholder:text-opacity-50"
+                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-foreground mb-2">Number of Influencers to Display</label>
+                  <div className="flex items-center gap-4">
+                    <input
+                      type="range"
+                      min={3}
+                      max={10}
+                      value={influencerCount}
+                      onChange={(e) => setInfluencerCount(Number(e.target.value))}
+                      className="flex-1 h-2 rounded-full appearance-none cursor-pointer accent-primary bg-foreground/10"
+                    />
+                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-primary-foreground font-bold text-lg border-2 border-border shadow-[2px_2px_0px_0px_var(--border)]">
+                      {influencerCount}
+                    </span>
+                  </div>
+                  <p className="text-xs text-foreground/50 mt-1.5">Choose between 3 and 10 influencers</p>
                 </div>
 
                 <div>
@@ -112,7 +131,7 @@ export default function CampaignSetupPage() {
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Describe your campaign goals, deliverables, and key messaging..."
                     rows={4}
-                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground placeholder:text-opacity-50 resize-none"
+                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30 resize-none"
                   />
                 </div>
 
@@ -154,10 +173,13 @@ export default function CampaignSetupPage() {
                   </div>
                 </div>
 
-
+                <div>
+                  <p className="text-sm text-foreground/60 mb-1">Influencers</p>
+                  <p className="font-semibold text-foreground">{influencerCount}</p>
+                </div>
 
                 <Link
-                  href={canProceed ? '/processing' : '#'}
+                  href={canProceed ? `/processing?count=${influencerCount}` : '#'}
                   onClick={(e) => !canProceed && e.preventDefault()}
                   className={`w-full py-3 px-2 rounded-lg font-bold text-center transition-all text-sm sm:text-base flex items-center justify-center ${canProceed
                     ? 'bg-primary text-primary-foreground hover-lift active:scale-95 cursor-pointer shadow-md'

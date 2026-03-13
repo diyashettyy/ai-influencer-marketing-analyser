@@ -131,7 +131,7 @@ export default function AboutPage() {
                             ].map((step, i) => (
                                 <div key={i} className="flex gap-4 group">
                                     <div className="flex flex-col items-center">
-                                        <div className="w-8 h-8 rounded-full bg-secondary text-foreground flex items-center justify-center font-bold text-sm group-hover:bg-primary group-hover:text-primary-foreground transition-colors border border-border/10">
+                                        <div className="w-8 h-8 flex-shrink-0 aspect-square rounded-full bg-secondary text-foreground flex items-center justify-center font-bold text-sm group-hover:bg-primary group-hover:text-primary-foreground transition-colors border border-border/10">
                                             {i + 1}
                                         </div>
                                         {i !== 2 && <div className="w-0.5 h-full bg-secondary/30 my-2" />}

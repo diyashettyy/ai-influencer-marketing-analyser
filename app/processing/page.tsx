@@ -1,12 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ProcessingLoader } from '@/components/loaders/ProcessingLoader'
 import { useProcessingStatus } from '@/hooks/useProcessingStatus'
 
 export default function ProcessingPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const count = searchParams.get('count') || '5'
   const { currentMessage } = useProcessingStatus(true)
   const [progress, setProgress] = useState(0)
 
@@ -28,10 +30,10 @@ export default function ProcessingPage() {
   useEffect(() => {
     if (progress === 100) {
       setTimeout(() => {
-        router.push('/results')
+        router.push(`/results?count=${count}`)
       }, 500)
     }
-  }, [progress, router])
+  }, [progress, router, count])
 
   return (
     <main className="min-h-screen bg-background flex flex-col">

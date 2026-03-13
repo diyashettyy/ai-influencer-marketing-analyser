@@ -2,11 +2,30 @@
 
 import Link from 'next/link'
 import React from 'react'
+import { useSearchParams } from 'next/navigation'
 import { ArrowRight, CheckCircle, TrendingUp, Users, History, Star, Zap } from 'lucide-react'
 import { SAMPLE_INFLUENCERS } from '@/lib/constants'
 
 export default function ResultsPage() {
-  const top3 = SAMPLE_INFLUENCERS.slice(0, 3)
+  const searchParams = useSearchParams()
+  const rawCount = Number(searchParams.get('count')) || 5
+  const count = Math.max(3, Math.min(10, rawCount))
+  const influencers = SAMPLE_INFLUENCERS.slice(0, count)
+  const hero = influencers[0]
+  const rest = influencers.slice(1)
+
+  // Color palette that cycles for cards beyond #2 and #3
+  const cardColors = [
+    { bg: 'bg-secondary/8', border: 'border-secondary', badge: 'bg-secondary text-secondary-foreground', avatar: 'bg-pastel-blue', accent: 'bg-secondary/5 border-secondary/20', accentIcon: 'text-secondary' },
+    { bg: 'bg-accent/8', border: 'border-accent', badge: 'bg-accent text-accent-foreground', avatar: 'bg-pastel-yellow', accent: 'bg-accent/5 border-accent/20', accentIcon: 'text-accent' },
+    { bg: 'bg-primary/8', border: 'border-primary', badge: 'bg-primary text-primary-foreground', avatar: 'bg-pastel-pink', accent: 'bg-primary/5 border-primary/20', accentIcon: 'text-primary' },
+  ]
+
+  const rankLabels = (rank: number) => {
+    if (rank === 2) return 'Runner Up'
+    if (rank === 3) return 'Strong Pick'
+    return `Pick #${rank}`
+  }
 
   return (
     <main className="min-h-screen bg-background">
@@ -26,7 +45,7 @@ export default function ResultsPage() {
             <span className="relative inline-block">
               <span className="absolute inset-0 bg-primary/20 rotate-1 scale-110 rounded-sm -z-10 blur-sm opacity-50" />
               <span className="relative bg-primary/20 px-4 py-1 skew-x-[-8deg] inline-block border-2 border-border shadow-[4px_4px_0px_0px_var(--border)]">
-                Top 3
+                Top {count}
               </span>
             </span>{' '}
             Influencers
@@ -56,7 +75,7 @@ export default function ResultsPage() {
 
                 <div className="w-28 h-28 mt-6 md:mt-4 rounded-full border-3 border-foreground bg-pastel-pink flex items-center justify-center shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] group-hover:rotate-3 transition-transform duration-300">
                   <span className="font-serif text-5xl font-bold text-foreground">
-                    {top3[0].name.charAt(0)}
+                    {hero.name.charAt(0)}
                   </span>
                 </div>
 
@@ -72,11 +91,11 @@ export default function ResultsPage() {
                 <div>
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
                     <div>
-                      <h2 className="font-serif text-2xl sm:text-3xl font-bold text-foreground mb-1">{top3[0].name}</h2>
-                      <p className="text-foreground/50 font-medium">{top3[0].handle}</p>
+                      <h2 className="font-serif text-2xl sm:text-3xl font-bold text-foreground mb-1">{hero.name}</h2>
+                      <p className="text-foreground/50 font-medium">{hero.handle}</p>
                     </div>
                     <span className="inline-block self-start px-4 py-1.5 bg-pastel-pink/50 border-2 border-border rounded-full text-xs font-black text-foreground uppercase tracking-wide shadow-[2px_2px_0px_0px_var(--border)]">
-                      {top3[0].category}
+                      {hero.category}
                     </span>
                   </div>
 
@@ -84,12 +103,12 @@ export default function ResultsPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
                     <div className="bg-background rounded-xl p-4 border-2 border-border shadow-[3px_3px_0px_0px_var(--border)] text-center group-hover:shadow-[4px_4px_0px_0px_var(--border)] transition-shadow">
                       <Users className="w-4 h-4 text-foreground/40 mx-auto mb-1" />
-                      <p className="font-serif text-2xl font-bold text-foreground">{(top3[0].followers / 1000).toFixed(0)}K</p>
+                      <p className="font-serif text-2xl font-bold text-foreground">{(hero.followers / 1000).toFixed(0)}K</p>
                       <p className="text-xs text-foreground/50 font-bold uppercase mt-1">Followers</p>
                     </div>
                     <div className="bg-background rounded-xl p-4 border-2 border-border shadow-[3px_3px_0px_0px_var(--border)] text-center group-hover:shadow-[4px_4px_0px_0px_var(--border)] transition-shadow">
                       <TrendingUp className="w-4 h-4 text-primary mx-auto mb-1" />
-                      <p className="font-serif text-2xl font-bold text-primary">{top3[0].engagement}%</p>
+                      <p className="font-serif text-2xl font-bold text-primary">{hero.engagement}%</p>
                       <p className="text-xs text-foreground/50 font-bold uppercase mt-1">Engagement</p>
                     </div>
                     <div className="bg-background rounded-xl p-4 border-2 border-border shadow-[3px_3px_0px_0px_var(--border)] text-center group-hover:shadow-[4px_4px_0px_0px_var(--border)] transition-shadow">
@@ -100,12 +119,12 @@ export default function ResultsPage() {
                   </div>
 
                   {/* AI quote */}
-                  {top3[0].description && (
+                  {hero.description && (
                     <div className="bg-primary/5 rounded-xl p-4 border border-primary/20 mb-6 -rotate-[0.3deg]">
                       <div className="flex gap-2 items-start">
                         <Zap className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                         <p className="text-sm text-foreground/80 italic leading-relaxed">
-                          {top3[0].description}
+                          {hero.description}
                         </p>
                       </div>
                     </div>
@@ -115,13 +134,13 @@ export default function ResultsPage() {
                 {/* Actions */}
                 <div className="flex gap-3">
                   <Link
-                    href={`/influencer-history/${top3[0].id}`}
+                    href={`/influencer-history/${hero.id}`}
                     className="flex-1 py-3 px-6 bg-foreground text-background rounded-xl font-bold text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] transition-all active:translate-y-0.5 active:shadow-none text-center border-2 border-foreground"
                   >
                     View Full Profile
                   </Link>
                   <Link
-                    href={`/influencer-history/${top3[0].id}#collaborations`}
+                    href={`/influencer-history/${hero.id}#collaborations`}
                     className="flex items-center justify-center px-4 bg-card text-foreground border-2 border-foreground rounded-xl hover:bg-muted transition-colors"
                     title="View Collaborations"
                   >
@@ -133,22 +152,20 @@ export default function ResultsPage() {
           </div>
         </div>
 
-        {/* ========== #2 and #3 — Side by side cards ========== */}
+        {/* ========== Remaining influencers — 2-column grid ========== */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
 
-          {[top3[1], top3[2]].map((influencer, i) => {
+          {rest.map((influencer, i) => {
             const rank = i + 2
-            const colors = rank === 2
-              ? { bg: 'bg-secondary/8', border: 'border-secondary', badge: 'bg-secondary text-secondary-foreground', avatar: 'bg-pastel-blue', accent: 'bg-secondary/5 border-secondary/20', accentIcon: 'text-secondary' }
-              : { bg: 'bg-accent/8', border: 'border-accent', badge: 'bg-accent text-accent-foreground', avatar: 'bg-pastel-yellow', accent: 'bg-accent/5 border-accent/20', accentIcon: 'text-accent' }
+            const colors = cardColors[i % cardColors.length]
 
             return (
-              <div key={influencer.id} className={`stagger-fade-${i + 2} group`}>
+              <div key={influencer.id} className={`stagger-fade-${Math.min(i + 2, 5)} group`}>
                 <div className={`relative ${colors.bg} rounded-2xl border-2 ${colors.border} p-7 shadow-[6px_6px_0px_0px_var(--border)] hover:shadow-[8px_8px_0px_0px_var(--border)] hover:-translate-y-1 transition-all duration-300 flex flex-col h-full`}>
 
                   {/* Rank Badge */}
                   <div className={`absolute -top-3.5 left-6 ${colors.badge} px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest border-2 border-foreground shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] z-10`}>
-                    #{rank} {rank === 2 ? 'Runner Up' : 'Strong Pick'}
+                    #{rank} {rankLabels(rank)}
                   </div>
 
                   {/* Top section: avatar + info */}
