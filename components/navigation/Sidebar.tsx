@@ -64,7 +64,10 @@ export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
                     </button>
                 )}
 
-                <div className="flex flex-col gap-2 p-3 overflow-hidden">
+                <div className={cn(
+                    "flex flex-col overflow-hidden",
+                    mobileOpen || isHovered ? "gap-2 p-3" : "justify-between p-3"
+                )}>
                     {navItems.map((item) => {
                         const isActive = pathname === item.href
                         return (
@@ -73,7 +76,8 @@ export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
                                 href={item.href}
                                 onClick={onMobileClose}
                                 className={cn(
-                                    "flex items-center gap-4 p-3 rounded-md border-2 border-transparent transition-all duration-200 group relative",
+                                    "flex items-center gap-4 rounded-md border-2 border-transparent transition-all duration-200 group relative",
+                                    mobileOpen || isHovered ? "p-3" : "p-2",
                                     isActive
                                         ? "bg-primary text-primary-foreground border-foreground shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                                         : "hover:bg-accent hover:border-foreground hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.3)]"
