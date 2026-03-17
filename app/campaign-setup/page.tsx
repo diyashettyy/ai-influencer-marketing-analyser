@@ -7,6 +7,7 @@ import { ChevronRight } from 'lucide-react'
 export default function CampaignSetupPage() {
   const [campaignName, setCampaignName] = useState('')
   const [campaignBudget, setCampaignBudget] = useState('')
+  const [budgetError, setBudgetError] = useState(false)
   const [ageGroup, setAgeGroup] = useState('')
   const [location, setLocation] = useState('')
   const [locationWarn, setLocationWarn] = useState(false)
@@ -162,15 +163,37 @@ export default function CampaignSetupPage() {
                 <div>
                   <div className="flex justify-between mb-2">
                     <label className="block text-sm font-semibold text-foreground">Campaign Budget (USD)</label>
-                    <span className="text-xs text-foreground/50 font-medium">Optional</span>
+                    <span className="text-xs text-foreground/50 font-medium">Optional · max $10,000</span>
                   </div>
                   <input
                     type="number"
                     value={campaignBudget}
-                    onChange={(e) => setCampaignBudget(e.target.value)}
-                    placeholder="e.g., 50000"
-                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30"
+                    min={0}
+                    max={10000}
+                    onChange={(e) => {
+                      const raw = e.target.value
+                      const num = parseFloat(raw)
+                      if (raw === '' || isNaN(num)) {
+                        setBudgetError(false)
+                        setCampaignBudget('')
+                      } else if (num > 10000) {
+                        setBudgetError(true)
+                        setCampaignBudget('10000')
+                      } else {
+                        setBudgetError(false)
+                        setCampaignBudget(raw)
+                      }
+                    }}
+                    placeholder="e.g., 5000"
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30 ${
+                      budgetError ? 'border-amber-400' : 'border-border'
+                    }`}
                   />
+                  {budgetError && (
+                    <p className="text-xs text-amber-500 mt-1.5">
+                      Budget capped at $10,000. Value has been adjusted.
+                    </p>
+                  )}
                 </div>
 
               </div>
