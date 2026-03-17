@@ -23,11 +23,17 @@ const navItems = [
 interface SidebarProps {
     mobileOpen?: boolean
     onMobileClose?: () => void
+    onHoverChange?: (hovered: boolean) => void
 }
 
-export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
+export function Sidebar({ mobileOpen = false, onMobileClose, onHoverChange }: SidebarProps) {
     const pathname = usePathname()
     const [isHovered, setIsHovered] = useState(false)
+
+    const handleHover = (val: boolean) => {
+        setIsHovered(val)
+        onHoverChange?.(val)
+    }
 
     return (
         <>
@@ -41,13 +47,13 @@ export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
 
             {/* Sidebar */}
             <aside
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+                onMouseEnter={() => handleHover(true)}
+                onMouseLeave={() => handleHover(false)}
                 className={cn(
                     // Base styles
                     "bg-background border-r-2 border-foreground transition-all duration-300 ease-in-out shadow-[4px_0px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_0px_0px_0px_rgba(255,255,255,0.2)]",
-                    // Desktop: sticky sidebar, hidden on mobile
-                    "hidden md:block sticky top-16 h-[calc(100vh-64px)] z-40",
+                    // Desktop: fixed sidebar, hidden on mobile
+                    "hidden md:flex md:flex-col fixed top-16 left-0 h-[calc(100vh-64px)] z-40",
                     // Desktop width based on hover
                     isHovered ? "md:w-60" : "md:w-[70px]",
                     // Mobile: fixed overlay drawer
