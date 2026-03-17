@@ -64,10 +64,7 @@ export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
                     </button>
                 )}
 
-                <div className={cn(
-                    "flex flex-col overflow-hidden",
-                    mobileOpen || isHovered ? "gap-2 p-3" : "justify-between p-3"
-                )}>
+                <div className="flex flex-col gap-2 p-3 overflow-hidden transition-all duration-300 ease-in-out">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href
                         return (

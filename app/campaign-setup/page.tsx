@@ -9,11 +9,34 @@ export default function CampaignSetupPage() {
   const [campaignBudget, setCampaignBudget] = useState('')
   const [ageGroup, setAgeGroup] = useState('')
   const [location, setLocation] = useState('')
+  const [locationWarn, setLocationWarn] = useState(false)
   const [niche, setNiche] = useState('')
+  const [nicheWarn, setNicheWarn] = useState(false)
   const [influencerCount, setInfluencerCount] = useState(5)
   const [description, setDescription] = useState('')
 
-  const canProceed = campaignName.trim() && campaignBudget.trim() && ageGroup.trim() && location.trim() && niche.trim()
+  // Only allow letters, spaces, and commas — show a caution if bad chars are typed
+  const handleLettersOnly = (
+    value: string,
+    setter: (v: string) => void,
+    setWarn: (w: boolean) => void
+  ) => {
+    const hasBad = /[^a-zA-Z\s,]/.test(value)
+    setWarn(hasBad)
+    const filtered = value.replace(/[^a-zA-Z\s,]/g, '')
+    setter(filtered)
+  }
+
+  const descriptionWordCount = description.trim().split(/\s+/).filter(Boolean).length
+  const descriptionValid =
+    description.trim().length >= 20 && descriptionWordCount >= 4
+
+  const canProceed =
+    campaignName.trim() &&
+    descriptionValid &&
+    ageGroup.trim() &&
+    location.trim() &&
+    niche.trim()
 
   return (
     <main className="min-h-screen bg-background">
@@ -51,17 +74,6 @@ export default function CampaignSetupPage() {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-foreground mb-2">Campaign Budget (USD)</label>
-                  <input
-                    type="number"
-                    value={campaignBudget}
-                    onChange={(e) => setCampaignBudget(e.target.value)}
-                    placeholder="e.g., 50000"
-                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30"
-                  />
-                </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-semibold text-foreground mb-2">Targeted Age Group</label>
@@ -71,12 +83,16 @@ export default function CampaignSetupPage() {
                       className={`w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background font-sans ${ageGroup ? 'text-foreground' : 'text-foreground/50'}`}
                     >
                       <option value="" disabled className="bg-background text-foreground/50 font-sans">Select Age Group</option>
-                      <option value="13-17" className="bg-background text-foreground font-sans">13-17</option>
-                      <option value="18-24" className="bg-background text-foreground font-sans">18-24</option>
-                      <option value="25-34" className="bg-background text-foreground font-sans">25-34</option>
-                      <option value="35-44" className="bg-background text-foreground font-sans">35-44</option>
-                      <option value="45+" className="bg-background text-foreground font-sans">45+</option>
-                      <option value="All" className="bg-background text-foreground font-sans">All Ages</option>
+                      <option value="18-30" className="bg-background text-foreground font-sans">18–30</option>
+                      <option value="18-34" className="bg-background text-foreground font-sans">18–34</option>
+                      <option value="18-35" className="bg-background text-foreground font-sans">18–35</option>
+                      <option value="18-40" className="bg-background text-foreground font-sans">18–40</option>
+                      <option value="20-40" className="bg-background text-foreground font-sans">20–40</option>
+                      <option value="22-35" className="bg-background text-foreground font-sans">22–35</option>
+                      <option value="24-40" className="bg-background text-foreground font-sans">24–40</option>
+                      <option value="25-40" className="bg-background text-foreground font-sans">25–40</option>
+                      <option value="28-40" className="bg-background text-foreground font-sans">28–40</option>
+                      <option value="All Ages" className="bg-background text-foreground font-sans">All Ages</option>
                     </select>
                   </div>
 
@@ -85,7 +101,7 @@ export default function CampaignSetupPage() {
                     <input
                       type="text"
                       value={location}
-                      onChange={(e) => setLocation(e.target.value)}
+                      onChange={(e) => handleLettersOnly(e.target.value, setLocation, setLocationWarn)}
                       placeholder="e.g., United States, Global"
                       className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30"
                     />
@@ -97,7 +113,7 @@ export default function CampaignSetupPage() {
                   <input
                     type="text"
                     value={niche}
-                    onChange={(e) => setNiche(e.target.value)}
+                    onChange={(e) => handleLettersOnly(e.target.value, setNiche, setNicheWarn)}
                     placeholder="e.g., Fashion, Tech, Wellness"
                     className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30"
                   />
@@ -122,9 +138,12 @@ export default function CampaignSetupPage() {
                 </div>
 
                 <div>
-                  <div className="flex justify-between mb-2">
+                  <div className="flex justify-between items-baseline mb-2">
                     <label className="block text-sm font-semibold text-foreground">Campaign Description</label>
-                    <span className="text-xs text-foreground/50 font-medium">Optional</span>
+                    <span className={`text-xs font-medium ${descriptionValid ? 'text-green-500' : 'text-foreground/50'}`}>
+                      {description.trim().length} chars · {descriptionWordCount} word{descriptionWordCount !== 1 ? 's' : ''}
+                      {description.trim().length > 0 && !descriptionValid && ' · min 20 chars & 4 words'}
+                    </span>
                   </div>
                   <textarea
                     value={description}
@@ -133,8 +152,26 @@ export default function CampaignSetupPage() {
                     rows={4}
                     className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30 resize-none"
                   />
+                  {description.trim().length > 0 && !descriptionValid && (
+                    <p className="text-xs text-red-400 mt-1.5">
+                      Please enter at least 20 characters and 4 words.
+                    </p>
+                  )}
                 </div>
 
+                <div>
+                  <div className="flex justify-between mb-2">
+                    <label className="block text-sm font-semibold text-foreground">Campaign Budget (USD)</label>
+                    <span className="text-xs text-foreground/50 font-medium">Optional</span>
+                  </div>
+                  <input
+                    type="number"
+                    value={campaignBudget}
+                    onChange={(e) => setCampaignBudget(e.target.value)}
+                    placeholder="e.g., 50000"
+                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30"
+                  />
+                </div>
 
               </div>
             </div>
