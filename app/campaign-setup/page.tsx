@@ -163,22 +163,22 @@ export default function CampaignSetupPage() {
                 <div>
                   <div className="flex justify-between mb-2">
                     <label className="block text-sm font-semibold text-foreground">Campaign Budget (USD)</label>
-                    <span className="text-xs text-foreground/50 font-medium">Optional · max $10,000</span>
+                    <span className="text-xs text-foreground/50 font-medium">Optional · max $5,000,000</span>
                   </div>
                   <input
                     type="number"
                     value={campaignBudget}
                     min={0}
-                    max={10000}
+                    max={5000000}
                     onChange={(e) => {
                       const raw = e.target.value
                       const num = parseFloat(raw)
                       if (raw === '' || isNaN(num)) {
                         setBudgetError(false)
                         setCampaignBudget('')
-                      } else if (num > 10000) {
+                      } else if (num > 5000000) {
                         setBudgetError(true)
-                        setCampaignBudget('10000')
+                        setCampaignBudget('5000000')
                       } else {
                         setBudgetError(false)
                         setCampaignBudget(raw)
@@ -191,7 +191,7 @@ export default function CampaignSetupPage() {
                   />
                   {budgetError && (
                     <p className="text-xs text-amber-500 mt-1.5">
-                      Budget capped at $10,000. Value has been adjusted.
+                      Budget capped at $5,000,000. Value has been adjusted.
                     </p>
                   )}
                 </div>
