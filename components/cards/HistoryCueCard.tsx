@@ -35,7 +35,7 @@ export function HistoryCueCard({ id, name, handle, category, followers, engageme
 
                 {/* Front of Card */}
                 <div className="absolute w-full h-full backface-hidden bg-card rounded-2xl border-2 border-border shadow-[8px_8px_0px_0px_var(--border)] overflow-hidden flex flex-col">
-                    <div className="h-1/2 bg-primary/10 flex items-center justify-center border-b-2 border-border relative overflow-hidden">
+                    <div className="h-1/2 bg-primary flex items-center justify-center border-b-2 border-border relative overflow-hidden">
                         <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
                         <div className="w-32 h-32 rounded-full border-2 border-border bg-card shadow-[4px_4px_0px_0px_var(--border)] flex items-center justify-center z-10">
                             <span className="font-serif text-5xl font-bold text-foreground">{name.charAt(0)}</span>

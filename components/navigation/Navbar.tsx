@@ -35,60 +35,24 @@ export function Navbar({ onMenuToggle }: NavbarProps) {
 
         <Link href="/" className="flex items-center gap-2 sm:gap-3 hover-lift group">
           <div className="relative w-12 h-12 sm:w-16 sm:h-16 transition-transform duration-300 group-hover:scale-105">
-            {/* Black & White Badge-style Logo */}
-            <svg viewBox="0 0 120 120" className="w-full h-full text-foreground drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)]">
-              <defs>
-                <path id="textPathTop" d="M 25 60 A 35 35 0 0 1 95 60" />
-                <path id="textPathBottom" d="M 95 60 A 35 35 0 0 1 25 60" />
-              </defs>
+            {/* Side-view sheep logo */}
+            <svg viewBox="0 0 150 95" className="w-full h-full text-foreground drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)]" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+              {/* Body */}
+              <path d="M 56 28 C 63 16, 76 16, 83 26 C 90 16, 103 17, 108 30 C 120 28, 129 37, 128 48 C 136 52, 136 63, 128 68 C 129 82, 120 90, 108 87 C 100 92, 89 91, 83 86 C 76 90, 66 90, 58 84 C 48 85, 40 80, 40 72 C 33 67, 33 56, 41 50 C 40 40, 46 31, 56 28 Z" className="fill-background" />
 
-              {/* Main Outer Seal / Badge */}
-              <path
-                d="M 60 5 L 68 15 L 80 12 L 85 24 L 98 25 L 98 38 L 110 42 L 105 54 L 115 60 L 105 66 L 110 78 L 98 82 L 98 95 L 85 96 L 80 108 L 68 105 L 60 115 L 52 105 L 40 108 L 35 96 L 22 95 L 22 82 L 10 78 L 15 66 L 5 60 L 15 54 L 10 42 L 22 38 L 22 25 L 35 24 L 40 12 L 52 15 Z"
-                className="fill-foreground"
-              />
+              {/* Neck and head */}
+              <path d="M 52 41 C 47 34, 38 33, 33 38 C 28 43, 28 53, 33 59 C 38 64, 46 64, 52 57" className="fill-background" />
 
-              {/* Inner White Circle Background */}
-              <circle cx="60" cy="60" r="46" className="fill-background stroke-foreground" strokeWidth="2" />
+              {/* Top wool on head */}
+              <path d="M 30 28 C 33 21, 42 20, 47 24 C 51 18, 60 20, 63 27 C 68 28, 70 35, 66 40 C 63 44, 57 45, 52 41 C 47 45, 39 44, 35 39 C 31 39, 29 33, 30 28 Z" className="fill-background" />
 
-              {/* Circular Text */}
-              <text className="font-sans fill-foreground" fontSize="13" fontWeight="bold" letterSpacing="1.5">
-                <textPath href="#textPathTop" startOffset="50%" textAnchor="middle">THE SOCIAL</textPath>
-              </text>
-              <text className="font-sans fill-foreground" fontSize="13" fontWeight="bold" letterSpacing="2">
-                <textPath href="#textPathBottom" startOffset="50%" textAnchor="middle">ANIMAL</textPath>
-              </text>
+              {/* Ears */}
+              <path d="M 31 39 L 16 34 L 31 31" className="fill-background" />
+              <path d="M 60 39 L 75 34 L 60 31" className="fill-background" />
 
-              {/* Elegant Minimal Sheep Motif */}
-              <g transform="translate(0, -2)">
-                {/* Legs */}
-                <rect x="52" y="72" width="3" height="12" className="fill-foreground" />
-                <rect x="65" y="72" width="3" height="10" className="fill-foreground" />
-                <rect x="56" y="72" width="3" height="12" className="fill-foreground" />
-                <rect x="69" y="70" width="3" height="12" className="fill-foreground" />
-
-                {/* Simplistic stylized Wool Cloud */}
-                <path
-                  d="M 50 48 C 50 38, 60 35, 65 40 C 75 35, 85 45, 85 55 C 92 55, 92 70, 85 75 C 80 82, 65 80, 60 75 C 50 82, 40 70, 45 60 C 40 55, 40 45, 50 48 Z"
-                  className="fill-background stroke-foreground"
-                  strokeWidth="2.5"
-                  strokeLinejoin="round"
-                />
-
-                {/* Head / Face */}
-                <ellipse cx="50" cy="56" rx="7" ry="9" className="fill-foreground" />
-
-                {/* Ears */}
-                <path d="M 43 50 Q 35 52 38 56 Q 43 54 43 50 Z" className="fill-foreground" />
-                <path d="M 57 50 Q 65 52 62 56 Q 57 54 57 50 Z" className="fill-foreground" />
-
-                {/* Wool Tuft on Head */}
-                <path
-                  d="M 46 50 C 46 45, 54 45, 54 50 C 54 45, 62 45, 62 50 C 62 55, 46 55, 46 50 Z"
-                  className="fill-background stroke-foreground"
-                  strokeWidth="2"
-                />
-              </g>
+              {/* Legs */}
+              <path d="M 64 72 L 73 72 L 72 95 C 72 99, 65 99, 65 95 Z" className="fill-background" />
+              <path d="M 100 72 L 109 72 L 108 95 C 108 99, 101 99, 101 95 Z" className="fill-background" />
             </svg>
           </div>
           <span className="font-brand text-xl sm:text-2xl font-normal text-foreground tracking-tight lowercase pt-1 hidden sm:block">the social animal</span>

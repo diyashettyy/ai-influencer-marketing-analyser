@@ -1,32 +1,330 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, ChevronDown, Search, X } from 'lucide-react'
 
+// ─── Alphabetically-sorted locations ─────────────────────────────────────────
+const ALL_LOCATIONS = [
+  'Afghanistan',
+  'Africa',
+  'Alaska',
+  'Albania',
+  'Algeria',
+  'Angola',
+  'Argentina',
+  'Arizona',
+  'Armenia',
+  'Aruba',
+  'Australia',
+  'Austria',
+  'Azerbaijan',
+  'Bahrain',
+  'Bangladesh',
+  'Barbados',
+  'Belgium',
+  'Belize',
+  'Benin',
+  'Bolivia',
+  'Bosnia and Herzegovina',
+  'Brazil',
+  'Brunei',
+  'Bulgaria',
+  'Burkina Faso',
+  'Cambodia',
+  'Cameroon',
+  'Canada',
+  'Chile',
+  'China',
+  'Colombia',
+  'Comoros',
+  'Congo',
+  'Costa Rica',
+  "Cote d'Ivoire",
+  'Croatia',
+  'Cuba',
+  'Cyprus',
+  'Czech Republic',
+  'Denmark',
+  'Dominica',
+  'Dominican Republic',
+  'Ecuador',
+  'Egypt',
+  'El Salvador',
+  'Estonia',
+  'Ethiopia',
+  'Fiji',
+  'Finland',
+  'France',
+  'Gambia',
+  'Georgia',
+  'Germany',
+  'Ghana',
+  'Greece',
+  'Greenland',
+  'Guatemala',
+  'Guinea',
+  'Guyana',
+  'Haiti',
+  'Holland',
+  'Honduras',
+  'Hong Kong',
+  'Hungary',
+  'Iceland',
+  'India',
+  'Indonesia',
+  'Iran',
+  'Iraq',
+  'Ireland',
+  'Israel',
+  'Italy',
+  'Jamaica',
+  'Japan',
+  'Jordan',
+  'Kazakhstan',
+  'Kenya',
+  'Kosovo',
+  'Kuwait',
+  'Laos',
+  'Latvia',
+  'Lebanon',
+  'Lesotho',
+  'Liberia',
+  'Libya',
+  'Lithuania',
+  'Macedonia',
+  'Malawi',
+  'Malaysia',
+  'Maldives',
+  'Mali',
+  'Malta',
+  'Mauritius',
+  'Mexico',
+  'Miami',
+  'Midlands',
+  'Moldova',
+  'Monaco',
+  'Mongolia',
+  'Montenegro',
+  'Morocco',
+  'Mozambique',
+  'Myanmar',
+  'Nepal',
+  'Netherlands',
+  'New Zealand',
+  'Nicaragua',
+  'North Macedonia',
+  'Norway',
+  'Oman',
+  'Pakistan',
+  'Palestine',
+  'Panama',
+  'Paraguay',
+  'Peru',
+  'Philippines',
+  'Poland',
+  'Portugal',
+  'Puerto Rico',
+  'Qatar',
+  'Romania',
+  'Russia',
+  'Rwanda',
+  'Samoa',
+  'Saudi Arabia',
+  'Scotland',
+  'Senegal',
+  'Serbia',
+  'Sierra Leone',
+  'Singapore',
+  'Slovakia',
+  'Slovenia',
+  'Somalia',
+  'South Africa',
+  'South Korea',
+  'South Sudan',
+  'Spain',
+  'Sri Lanka',
+  'St. Lucia',
+  'Suriname',
+  'Swaziland',
+  'Sweden',
+  'Switzerland',
+  'Syria',
+  'Taiwan',
+  'Tanzania',
+  'Thailand',
+  'Tibet',
+  'Tonga',
+  'Trinidad',
+  'Trinidad and Tobago',
+  'Tunisia',
+  'Turkey',
+  'UAE',
+  'Uganda',
+  'UK',
+  'Ukraine',
+  'Uruguay',
+  'USA',
+  'Uzbekistan',
+  'Vanuatu',
+  'Vietnam',
+  'Wales',
+  'Yemen',
+  'Zambia',
+  'Zimbabwe',
+]
+
+// ─── Alphabetically-sorted niches ────────────────────────────────────────────
+const ALL_NICHES = [
+  'Beauty',
+  'Family',
+  'Fashion',
+  'Fitness',
+  'Food',
+  'Interior',
+  'Pet',
+  'Travel',
+]
+
+// ─── Reusable Searchable Dropdown ────────────────────────────────────────────
+function SearchableDropdown({
+  value,
+  onChange,
+  items,
+  placeholder = 'Select...',
+}: {
+  value: string
+  onChange: (v: string) => void
+  items: string[]
+  placeholder?: string
+}) {
+  const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const containerRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const filtered = items.filter((item) =>
+    item.toLowerCase().includes(query.toLowerCase())
+  )
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false)
+        setQuery('')
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  const handleSelect = (item: string) => {
+    onChange(item)
+    setOpen(false)
+    setQuery('')
+  }
+
+  const handleClear = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    onChange('')
+    setQuery('')
+  }
+
+  const handleOpen = () => {
+    setOpen(true)
+    setTimeout(() => inputRef.current?.focus(), 50)
+  }
+
+  const searchLabel = placeholder.toLowerCase().replace('select ', '')
+
+  return (
+    <div ref={containerRef} className="relative w-full">
+      {/* Trigger */}
+      <button
+        type="button"
+        onClick={handleOpen}
+        className={`w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background font-sans text-left flex items-center justify-between gap-2 transition-all ${
+          value ? 'text-foreground' : 'text-foreground/50'
+        }`}
+      >
+        <span className="truncate">{value || placeholder}</span>
+        <span className="flex items-center gap-1 shrink-0">
+          {value && (
+            <X
+              className="w-3.5 h-3.5 text-foreground/40 hover:text-foreground transition-colors"
+              onClick={handleClear}
+            />
+          )}
+          <ChevronDown
+            className={`w-4 h-4 text-foreground/50 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          />
+        </span>
+      </button>
+
+      {/* Panel */}
+      {open && (
+        <div className="absolute z-50 mt-1.5 w-full bg-card border border-border/60 rounded-xl shadow-xl overflow-hidden">
+          {/* Search input */}
+          <div className="px-3 pt-3 pb-2 border-b border-border/30">
+            <div className="flex items-center gap-2 px-3 py-2 bg-background rounded-lg border border-border/40">
+              <Search className="w-3.5 h-3.5 text-foreground/40 shrink-0" />
+              <input
+                ref={inputRef}
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={`Search ${searchLabel}...`}
+                className="flex-1 bg-transparent text-sm text-foreground placeholder:text-foreground/30 focus:outline-none"
+              />
+              {query && (
+                <button type="button" onClick={() => setQuery('')}>
+                  <X className="w-3 h-3 text-foreground/40 hover:text-foreground" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Options */}
+          <ul className="max-h-52 overflow-y-auto py-1">
+            {filtered.length > 0 ? (
+              filtered.map((item) => (
+                <li key={item}>
+                  <button
+                    type="button"
+                    onClick={() => handleSelect(item)}
+                    className={`w-full text-left px-4 py-2 text-sm font-sans transition-colors hover:bg-primary/10 hover:text-primary ${
+                      item === value
+                        ? 'bg-primary/15 text-primary font-semibold'
+                        : 'text-foreground'
+                    }`}
+                  >
+                    {item}
+                  </button>
+                </li>
+              ))
+            ) : (
+              <li className="px-4 py-3 text-sm text-foreground/40 text-center">
+                No results for &ldquo;{query}&rdquo;
+              </li>
+            )}
+          </ul>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 export default function CampaignSetupPage() {
   const [campaignName, setCampaignName] = useState('')
   const [campaignBudget, setCampaignBudget] = useState('')
   const [budgetError, setBudgetError] = useState(false)
   const [ageGroup, setAgeGroup] = useState('')
   const [location, setLocation] = useState('')
-  const [locationWarn, setLocationWarn] = useState(false)
   const [niche, setNiche] = useState('')
-  const [nicheWarn, setNicheWarn] = useState(false)
   const [influencerCount, setInfluencerCount] = useState(5)
   const [description, setDescription] = useState('')
-
-  // Only allow letters, spaces, and commas — show a caution if bad chars are typed
-  const handleLettersOnly = (
-    value: string,
-    setter: (v: string) => void,
-    setWarn: (w: boolean) => void
-  ) => {
-    const hasBad = /[^a-zA-Z\s,]/.test(value)
-    setWarn(hasBad)
-    const filtered = value.replace(/[^a-zA-Z\s,]/g, '')
-    setter(filtered)
-  }
 
   const descriptionWordCount = description.trim().split(/\s+/).filter(Boolean).length
   const descriptionValid =
@@ -59,11 +357,11 @@ export default function CampaignSetupPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            {/* Campaign Details Form */}
             <div className="bg-card rounded-2xl border border-border/20 p-8 mb-8 shadow-sm">
               <h2 className="font-serif text-2xl font-bold text-foreground mb-6">Campaign Details</h2>
 
               <div className="space-y-6">
+                {/* Campaign Name */}
                 <div>
                   <label className="block text-sm font-semibold text-foreground mb-2">Campaign Name</label>
                   <input
@@ -75,6 +373,7 @@ export default function CampaignSetupPage() {
                   />
                 </div>
 
+                {/* Age Group + Location */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-semibold text-foreground mb-2">Targeted Age Group</label>
@@ -99,27 +398,27 @@ export default function CampaignSetupPage() {
 
                   <div>
                     <label className="block text-sm font-semibold text-foreground mb-2">Geographical Location</label>
-                    <input
-                      type="text"
+                    <SearchableDropdown
                       value={location}
-                      onChange={(e) => handleLettersOnly(e.target.value, setLocation, setLocationWarn)}
-                      placeholder="e.g., United States, Global"
-                      className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30"
+                      onChange={setLocation}
+                      items={ALL_LOCATIONS}
+                      placeholder="Select Location"
                     />
                   </div>
                 </div>
 
+                {/* Influencer Niche */}
                 <div>
                   <label className="block text-sm font-semibold text-foreground mb-2">Influencer Niche</label>
-                  <input
-                    type="text"
+                  <SearchableDropdown
                     value={niche}
-                    onChange={(e) => handleLettersOnly(e.target.value, setNiche, setNicheWarn)}
-                    placeholder="e.g., Fashion, Tech, Wellness"
-                    className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground placeholder:text-foreground/30"
+                    onChange={setNiche}
+                    items={ALL_NICHES}
+                    placeholder="Select Niche"
                   />
                 </div>
 
+                {/* Influencer Count Slider */}
                 <div>
                   <label className="block text-sm font-semibold text-foreground mb-2">Number of Influencers to Display</label>
                   <div className="flex items-center gap-4">
@@ -138,6 +437,7 @@ export default function CampaignSetupPage() {
                   <p className="text-xs text-foreground/50 mt-1.5">Choose between 3 and 10 influencers</p>
                 </div>
 
+                {/* Campaign Description */}
                 <div>
                   <div className="flex justify-between items-baseline mb-2">
                     <label className="block text-sm font-semibold text-foreground">Campaign Description</label>
@@ -160,6 +460,7 @@ export default function CampaignSetupPage() {
                   )}
                 </div>
 
+                {/* Budget */}
                 <div>
                   <div className="flex justify-between mb-2">
                     <label className="block text-sm font-semibold text-foreground">Campaign Budget (USD)</label>
